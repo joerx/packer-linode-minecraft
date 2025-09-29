@@ -1,31 +1,26 @@
-PACKAGE_NAME ?= $(shell basename $(CURDIR))
-COMMIT ?= $(shell git rev-parse --short HEAD)
-VERSION ?= v0.1.0-$(COMMIT)
-
-PACKAGE_FILE ?= $(PACKAGE_NAME)-$(VERSION).tar.gz
+BUILD=qemu
 
 .PHONY: default
-default: test
+default: check-fmt clean build
 
-out/$(PACKAGE_FILE):
-	mkdir -p out
-	tar -czf out/$(PACKAGE_FILE) --exclude out --exclude Makefile --exclude .terraform --exclude '.git*' --exclude tests .
+.PHONY: build
+build: $(BUILD)/packer-manifest.json
 
-.PHONY: package
-package: out/$(PACKAGE_FILE)
+$(BUILD)/packer-manifest.json:
+	cd $(BUILD) && packer init .
+	cd $(BUILD) && packer build .
 
 .PHONY: clean
 clean:
-	rm -rf out
-
-.PHONY: test
-test:
-	terraform init -upgrade
-	terraform test
+	rm -f $(BUILD)/packer-manifest.json
+	rm -rf $(BUILD)/output
 
 .PHONY: check-fmt
 check-fmt:
-	find . -type f -name '*.tf' -or -name '*.tfvars' -or -name '*.tftest.hcl' | xargs -n1 terraform fmt -check -diff
+	cd qemu && packer fmt -check -diff .
+	cd linode && packer fmt -check -diff .
 
-release:
-	gh release create $(VERSION) --title "Release $(VERSION)" --target main --generate-notes
+.PHONY: fmt
+fmt:
+	cd qemu && packer fmt .
+	cd linode && packer fmt .
