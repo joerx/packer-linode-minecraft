@@ -18,7 +18,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-      RELEASE_CHANNEL: ${{ github.event_name == 'push' && 'edge' || github.head_ref }}
+      RELEASE_CHANNEL: ${{ github.event_name == 'push' && 'edge' || 'dev-' + github.head_ref }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
