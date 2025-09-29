@@ -1,9 +1,12 @@
-name: publish
+name: build
 
 on:
   push:
     branches:
-      - packer-stuff
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   packer_build:
