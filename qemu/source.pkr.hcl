@@ -1,7 +1,7 @@
 source "qemu" "ubuntu" {
   accelerator      = "kvm"
   output_directory = "output/qemu-ubuntu"
-  vm_name          = "mc-ubuntu${local.ubuntu_version}.img"
+  vm_name          = "mc-ubuntu${local.ubuntu_version}-${var.channel}.img"
 
   iso_checksum = "file:https://cloud-images.ubuntu.com/${var.ubuntu_release}/current/SHA256SUMS"
   iso_url      = "https://cloud-images.ubuntu.com/${var.ubuntu_release}/current/${var.ubuntu_release}-server-cloudimg-amd64.img"

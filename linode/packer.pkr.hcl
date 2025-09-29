@@ -23,6 +23,12 @@ variable "linode_api_token" {
   default = env("LINODE_TOKEN")
 }
 
+variable "channel" {
+  type        = string
+  default     = "dev"
+  description = "Channel name to tag the image with (e.g. stable, dev, etc)"
+}
+
 variable "ubuntu_release" {
   type        = string
   default     = "jammy"
