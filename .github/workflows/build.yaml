@@ -1,0 +1,26 @@
+name: publish
+
+on:
+  push:
+    branches:
+      - packer-stuff
+
+jobs:
+  packer_build:
+    name: Build image for Linode
+    runs-on: ubuntu-latest
+    environment: build
+    permissions:
+      contents: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup packer
+        uses: hashicorp/setup-packer@v3.1.0
+        with:
+          version: v1.14.2
+      - name: Build image(s)
+        run: make BUILD=linode
