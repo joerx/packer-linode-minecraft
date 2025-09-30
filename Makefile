@@ -1,4 +1,5 @@
 BUILD=qemu
+CHANNEL=snapshot-$(shell git rev-parse --short HEAD)
 
 .PHONY: default
 default: check-fmt clean build
@@ -8,7 +9,7 @@ build: $(BUILD)/packer-manifest.json
 
 $(BUILD)/packer-manifest.json:
 	cd $(BUILD) && packer init .
-	cd $(BUILD) && packer build .
+	cd $(BUILD) && packer build -var "channel=$(CHANNEL)" .
 
 .PHONY: clean
 clean:

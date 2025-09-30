@@ -14,10 +14,5 @@ build {
     ]
   }
 
-  post-processor "manifest" {
-    custom_data = {
-      ubuntu_release = var.ubuntu_release
-      ubuntu_version = local.ubuntu_version
-    }
-  }
+  post-processor "manifest" {}
 }

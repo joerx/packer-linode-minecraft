@@ -21,3 +21,9 @@ variable "ubuntu_release" {
   default     = "jammy"
   description = "Ubuntu codename version (i.e. 20.04 is focal and 22.04 is jammy)"
 }
+
+variable "channel" {
+  type        = string
+  default     = "dev"
+  description = "Channel name to tag the image with (e.g. stable, dev, etc)"
+}
