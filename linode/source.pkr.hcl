@@ -1,12 +1,12 @@
 source "linode" "ubuntu" {
   image             = "linode/ubuntu${local.ubuntu_version}"
   image_description = "Base image for minecraft servers."
-  image_label       = "mc-ubuntu${local.ubuntu_version}-${var.channel}"
-  # image_regions     = ["eu-central", "ap-south"]
+  image_label       = "mc-server-ubuntu${local.ubuntu_version}-${var.channel}"
+  image_regions     = local.regions
   instance_label    = "mc-temp-packer-ubuntu${local.ubuntu_version}-${var.channel}-${local.timestamp}"
   instance_type     = "g6-nanode-1"
   linode_token      = "${var.linode_api_token}"
-  region            = "eu-central"
+  region            = local.regions[0]
   ssh_username      = "root"
   instance_tags     = ["managed-by:packer", "channel:${var.channel}", "build:ubuntu${local.ubuntu_version}"]
 
