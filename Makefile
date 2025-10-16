@@ -5,23 +5,20 @@ CHANNEL=snapshot-$(shell git rev-parse --short HEAD)
 default: check-fmt clean build
 
 .PHONY: build
-build: $(BUILD)/packer-manifest.json
+build: packer/$(BUILD)/packer-manifest.json
 
-$(BUILD)/packer-manifest.json:
+packer/$(BUILD)/packer-manifest.json:
 	cd $(BUILD) && packer init .
 	cd $(BUILD) && packer build -var "channel=$(CHANNEL)" .
 
 .PHONY: clean
 clean:
-	rm -f $(BUILD)/packer-manifest.json
-	rm -rf $(BUILD)/output
+	find packer -name 'packer-manifest.json' -exec rm {} \;
 
 .PHONY: check-fmt
 check-fmt:
-	cd qemu && packer fmt -check -diff .
-	cd linode && packer fmt -check -diff .
+	find packer -name '*.pkr.hcl' -exec packer fmt -check -diff {} \;
 
 .PHONY: fmt
 fmt:
-	cd qemu && packer fmt .
-	cd linode && packer fmt .
+	find packer -name '*.pkr.hcl' -exec packer fmt {} \;
