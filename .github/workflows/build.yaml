@@ -31,7 +31,7 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           set -e -o pipefail
-          echo "changed=$(git diff --name-only $BASE_SHA $HEAD_SHA | grep -E '^(Makefile|packer/|scripts/)' | wc -l)" >> $GITHUB_OUTPUT
+          echo "changed=$(git diff --name-only $BASE_SHA $HEAD_SHA | grep -E '^(Makefile|packer/)' | wc -l)" >> $GITHUB_OUTPUT
       - name: Setup packer
         uses: hashicorp/setup-packer@v3.1.0
         with:

@@ -11,6 +11,6 @@ source "linode" "ubuntu" {
   instance_tags     = ["managed-by:packer", "channel:${var.channel}", "build:ubuntu${local.ubuntu_version}"]
 
   metadata {
-    user_data = base64encode(file("${path.root}/../init/user-data"))
+    user_data = base64encode(file(abspath("${path.root}/../init/user-data")))
   }
 }

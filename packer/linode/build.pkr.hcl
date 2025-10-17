@@ -9,8 +9,8 @@ build {
     execute_command = "sudo env {{ .Vars }} {{ .Path }}"
 
     scripts = [
-      "../scripts/setup.sh",
-      "../scripts/cleanup.sh",
+      abspath("${path.root}/../scripts/setup.sh"),
+      abspath("${path.root}/../scripts/cleanup.sh"),
     ]
   }
 

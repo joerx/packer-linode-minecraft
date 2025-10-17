@@ -8,11 +8,12 @@ default: check-fmt clean build
 build: packer/$(BUILD)/packer-manifest.json
 
 packer/$(BUILD)/packer-manifest.json:
-	cd $(BUILD) && packer init .
-	cd $(BUILD) && packer build -var "channel=$(CHANNEL)" .
+	packer init packer/$(BUILD)
+	packer build -var "channel=$(CHANNEL)" packer/$(BUILD) 
 
 .PHONY: clean
 clean:
+	find packer -type d -name output -exec rm -rf {} \;
 	find packer -name 'packer-manifest.json' -exec rm {} \;
 
 .PHONY: check-fmt
