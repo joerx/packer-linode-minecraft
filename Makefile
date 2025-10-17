@@ -16,10 +16,11 @@ clean:
 	find packer -type d -name output -exec rm -rf {} \;
 	find packer -name 'packer-manifest.json' -exec rm {} \;
 
+# Don't use `-exec` below since it will ignrore non-zero exit codes
 .PHONY: check-fmt
 check-fmt:
-	find packer -name '*.pkr.hcl' -exec packer fmt -check -diff {} \;
+	find packer -name '*.pkr.hcl' | xargs -n1 packer fmt -check -diff
 
 .PHONY: fmt
 fmt:
-	find packer -name '*.pkr.hcl' -exec packer fmt {} \;
+	find packer -name '*.pkr.hcl' | xargs -n1 packer fmt

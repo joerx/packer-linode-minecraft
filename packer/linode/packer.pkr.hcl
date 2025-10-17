@@ -16,7 +16,7 @@ locals {
   ubuntu_version = lookup(local.ubuntu_releases, var.ubuntu_release, "22.04")
   timestamp      = regex_replace(timestamp(), "[- TZ:]", "")
   regions        = ["eu-central"]
-  # regions = ["eu-central", "ap-south"]
+  label          = substr(var.channel, 0, 25)
 }
 
 variable "linode_api_token" {
