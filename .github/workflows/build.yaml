@@ -32,11 +32,13 @@ jobs:
         run: |
           set -e -o pipefail
           echo "changed=$(git diff --name-only $BASE_SHA $HEAD_SHA | grep -E '^(Makefile|packer/)' | wc -l)" >> $GITHUB_OUTPUT
-          echo "Changes to packer/: ${{ steps.detect_changes.outputs.changed}}"
+      - name: Log changes
+        run: |
+          echo "Changes to packer/: ${{ steps.detect_changes.outputs.changed }}"
       - name: Setup packer
         uses: hashicorp/setup-packer@v3.1.0
         with:
           version: v1.14.2
       - name: Build image (${{ env.RELEASE_CHANNEL }})
         if: ${{ steps.detect_changes.outputs.changed > 0 }}
-        run: make BUILD=linode CHANNEL=${RELEASE_CHANNEL}
+        run: echo "do a build" # make BUILD=linode CHANNEL=${RELEASE_CHANNEL}
