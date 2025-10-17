@@ -1,6 +1,6 @@
 source "qemu" "ubuntu" {
   accelerator      = "kvm"
-  output_directory = "output/qemu-ubuntu"
+  output_directory = "${path.root}/output/qemu-ubuntu"
   vm_name          = "mc-server-ubuntu${local.ubuntu_version}-${var.channel}.img"
 
   iso_checksum = "file:https://cloud-images.ubuntu.com/${var.ubuntu_release}/current/SHA256SUMS"
@@ -17,7 +17,7 @@ source "qemu" "ubuntu" {
   ssh_password = "ubuntu"
   ssh_timeout  = "20m"
 
-  cd_files = ["../init/*"]
+  cd_files = [abspath("${path.root}/../init/*")]
   cd_label = "cidata"
 
   headless         = true
