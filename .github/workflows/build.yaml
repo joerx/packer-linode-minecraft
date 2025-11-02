@@ -41,4 +41,4 @@ jobs:
           version: v1.14.2
       - name: Build image (${{ env.RELEASE_CHANNEL }})
         if: ${{ steps.detect_changes.outputs.changed > 0 }}
-        run: echo "do a build" # make BUILD=linode CHANNEL=${RELEASE_CHANNEL}
+        run: make BUILD=linode CHANNEL=${RELEASE_CHANNEL}
