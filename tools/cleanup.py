@@ -9,10 +9,11 @@ from datetime import datetime, timedelta
 from urllib.parse import urlencode
 
 
-log_level = os.getenv("LOG_LEVEL", "DEBUG").upper()
-logging.basicConfig(log_level, stream=os.sys.stderr)
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=log_level, stream=os.sys.stderr)
 
 
+REPO="github.com/joerx/packer-linode-minecraft"
 LINODE_TOKEN = os.getenv("LINODE_TOKEN")
 DRY_RUN=os.getenv("DRY_RUN", "0") in ["1", "true", "True", "TRUE"]
 
@@ -91,6 +92,11 @@ def find_images():
     for image in body["data"]:
       # We only care about private images
       if image["is_public"]:
+        continue
+
+      tags = map_tags(image["tags"])
+      if tags.get("repo") != REPO:
+        logging.debug(f"Image '{image['label']}': repo tag '{tags.get('repo')}' does not match '{REPO}', skipping")
         continue
 
       yield {
