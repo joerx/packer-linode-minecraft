@@ -38,24 +38,19 @@ def find_deprecated_images(stable_channels = ["stable", "edge"], max_age = timed
   for image in find_images():
     channel = image["tags"].get("channel")
     label = image["label"]
-    deprecated = False
 
     if channel in stable_channels:
-      logging.debug(f"Image '{label}': Stable image, skipping")
+      logging.debug(f"Image '{label}', channel='{channel}', skipping")
+      continue
+      
+    age = datetime.now() - image["created"]
+
+    if age <= max_age:
+      logging.debug(f"Image '{label}', channel='{channel}', age {age}, within max age, retaining")
       continue
 
-    if channel is None:
-      logging.debug(f"Image '{label}': No channel tag, skipping")
-      continue
-  
-    if channel.startswith("dev-"):
-      age = datetime.now() - image["created"]
-      deprecated = age > max_age
-
-      logging.debug(f"Image '{label}': Dev channel, age {age}, deprecated: {deprecated}")
-    
-    if deprecated:
-      yield image
+    logging.debug(f"Image '{label}', channel='{channel}', age {age}, marked deprecated")
+    yield image
 
 
 def delete_image(image):
