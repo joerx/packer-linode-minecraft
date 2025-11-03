@@ -1,12 +1,16 @@
-name: Daily Cleanup
+name: cleanup
 
 on:
+  workflow_dispatch: {}
   schedule:
     - cron: '0 3 * * *'  # runs daily at 03:00 UTC
-  workflow_dispatch: {}
+  pull_request:
+    branches:
+      - main
 
 jobs:
   run-script:
+    name: Run cleanup script
     runs-on: ubuntu-latest
     environment: build
     permissions:
@@ -14,7 +18,8 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-      DRY_RUN: "1"
+      DRY_RUN: ${{ github.event_name == 'pull_request' && '1' || '0' }}
+      MAX_AGE_DAYS: "3"
       LOG_LEVEL: "DEBUG"
     steps:
       - name: Checkout repository

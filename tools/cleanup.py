@@ -10,9 +10,11 @@ from urllib.parse import urlencode
 
 
 STABLE_CHANNELS = ["stable", "edge"]
-MAX_AGE_DAYS = 7
+MAX_AGE_DAYS = int(os.getenv("MAX_AGE_DAYS", "7"))
 REPO="github.com/joerx/packer-linode-minecraft"
+
 LINODE_TOKEN = os.getenv("LINODE_TOKEN")
+
 DRY_RUN=os.getenv("DRY_RUN", "0") in ["1", "true", "True", "TRUE"]
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 
