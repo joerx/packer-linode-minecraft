@@ -13,7 +13,7 @@ packer/$(BUILD)/packer-manifest.json:
 
 .PHONY: clean
 clean:
-	find packer -type d -name output -exec rm -rf {} \;
+	find packer -depth -type d -name output -exec rm -rf {} \;
 	find packer -name 'packer-manifest.json' -exec rm {} \;
 
 # Don't use `-exec` below since it will ignrore non-zero exit codes
