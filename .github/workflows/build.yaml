@@ -17,6 +17,7 @@ jobs:
       contents: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_API_TOKEN }} # Avoid rate limiting, see https://developer.hashicorp.com/packer/docs/configure#packer_github_api_token
       LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
       RELEASE_CHANNEL: ${{ github.event_name == 'push' && 'edge' || format('dev-{0}', github.head_ref) }}
     steps:
